@@ -11,14 +11,20 @@ interface IBlogDetails {
 }
 
 const BlogDetails: FC<IBlogDetails> = async ({ params }) => {
-    const post = await prisma.post.findFirst({
-        where: {
-            id: params.id
-        },
-        include: {
-            author: true
-        }
-    });
+    let post = null;
+    try {
+        post = await prisma.post.findFirst({
+            where: {
+                id: params.id
+            },
+            include: {
+                author: true
+            }
+        });
+    }
+    catch (err) {
+        throw new Error("Something went wrong!")
+    }
 
     return (
         <div className='max-w-4xl mx-auto py-8'>

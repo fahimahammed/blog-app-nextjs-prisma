@@ -30,7 +30,7 @@ const FormComments: FC<IFormComment> = ({ postId }) => {
                 }
 
             } catch (err) {
-                console.error(err);
+                throw new Error("something went wrong!")
             }
         }
     };

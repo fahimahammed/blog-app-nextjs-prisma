@@ -3,15 +3,20 @@ import Link from 'next/link';
 import React from 'react';
 
 const BlogsPage = async () => {
-
-    const posts = await prisma.post.findMany({
-        orderBy: {
-            createdAt: 'desc'
-        },
-        include: {
-            author: true
-        }
-    });
+    let posts = [];
+    try {
+        posts = await prisma.post.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                author: true
+            }
+        });
+    }
+    catch (err) {
+        throw new Error("something went wrong!")
+    }
 
     return (
         <div className='max-w-4xl mx-auto py-8'>

@@ -7,15 +7,20 @@ interface CommentProps {
 }
 
 const Comments: FC<CommentProps> = async ({ postId }) => {
-
-    const comments = await prisma.comment.findMany({
-        where: {
-            postId
-        },
-        include: {
-            author: true
-        }
-    });
+    let comments = [];
+    try {
+        comments = await prisma.comment.findMany({
+            where: {
+                postId
+            },
+            include: {
+                author: true
+            }
+        });
+    }
+    catch (err) {
+        throw new Error("something went wrong!")
+    }
 
     return (
         <div className='mt-8'>
