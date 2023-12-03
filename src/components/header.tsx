@@ -1,7 +1,11 @@
+import { getCurrentUser } from '@/lib/session';
 import Link from 'next/link';
 import React from 'react';
+import Logout from './logout';
 
-const Header = () => {
+const Header = async () => {
+    const user = await getCurrentUser();
+
     return (
         <header className='bg-blue-800 p-4'>
             <nav className='flex justify-between items-center max-w-4xl mx-auto'>
@@ -15,11 +19,16 @@ const Header = () => {
                             Blogs
                         </Link>
                     </li>
-                    <li>
-                        <Link href="/api/auth/signin" className="text-white hover:underline">
-                            Login
-                        </Link>
-                    </li>
+                    {user?.name ? (
+                        <Logout />
+                    ) : (
+                        <li>
+                            <Link href="/api/auth/signin" className="text-white hover:underline">
+                                Login
+                            </Link>
+                        </li>
+                    )}
+
                 </ul>
             </nav>
 
