@@ -3,7 +3,7 @@
 import { IBlog } from '@/types/blog';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
