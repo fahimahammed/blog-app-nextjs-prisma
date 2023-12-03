@@ -1,10 +1,10 @@
 'use client'
 import { IBlog } from '@/types/blog';
+import { useSession } from 'next-auth/react';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 import ReactTextareaAutosize from 'react-textarea-autosize';
 
 const inputClass = 'w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring focus:border-blue-200 text-black';
-
 
 const FromNewPost = () => {
     const [formData, setFormData] = useState<IBlog>({
@@ -25,6 +25,9 @@ const FromNewPost = () => {
         e.preventDefault();
         console.log("data: ", formData);
     }
+
+    const { data } = useSession();
+    console.log(data?.user)
 
     return (
         <form className='max-w-md mx-auto p-4' onSubmit={handleSubmit}>
