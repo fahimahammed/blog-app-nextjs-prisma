@@ -21,7 +21,7 @@ const FromNewPost = () => {
         })
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: any) => {
         e.preventDefault();
         console.log("form submit")
     }
