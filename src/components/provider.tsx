@@ -8,7 +8,7 @@ interface ProviderProps {
 
 const Provider: FC<ProviderProps> = ({ children }) => {
     return (
-        <SessionProvider>
+        <SessionProvider basePath="/api/auth">
             {children}
         </SessionProvider>
     );
