@@ -1,14 +1,38 @@
 'use client'
-import React, { ChangeEvent, useState } from 'react';
+import axios from 'axios';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React, { ChangeEvent, FC, useState } from 'react';
 
-const FormComments = () => {
+interface IFormComment {
+    postId: string
+}
+
+const FormComments: FC<IFormComment> = ({ postId }) => {
     const [comment, setComment] = useState<string>("");
+    const router = useRouter();
+    const { data } = useSession();
+
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         setComment(event.target.value);
     };
 
-    const handleSubmit = () => {
-        console.log(comment)
+    const handleSubmit = async () => {
+        if (comment.trim() !== '') {
+            try {
+                const newComment = await axios.post('/api/comments', {
+                    postId,
+                    text: comment
+                });
+
+                if (newComment.status === 200) {
+                    router.refresh();
+                }
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
     };
 
     return (
@@ -28,6 +52,7 @@ const FormComments = () => {
                     onChange={handleChange}
                 />
                 <button
+                    disabled={!data?.user?.email}
                     onClick={handleSubmit}
                     className='bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md mt-2 disabled:bg-gray-400'
                 >

@@ -18,7 +18,6 @@ const FromNewPost = () => {
     const router = useRouter();
 
     const { data } = useSession();
-    //console.log(data?.user)
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         event.preventDefault();
@@ -66,6 +65,7 @@ const FromNewPost = () => {
                 />
             </div>
             <button
+                disabled={!data?.user?.email}
                 type='submit'
                 className='bg-blue-800 hover:bg-blue-700  text-white font-bold py-2 px-4 rounded-md focus:outline-none focus:ring focus:border-blue-300 w-full disabled:bg-gray-400'
             >

@@ -1,18 +1,38 @@
 import Comments from '@/components/comments';
 import FormComments from '@/components/form-comments';
-import React from 'react';
+import prisma from '@/lib/dbConfig';
+import { format } from 'date-fns';
+import React, { FC } from 'react';
 
-const BlogDetails = () => {
+interface IBlogDetails {
+    params: {
+        id: string
+    }
+}
+
+const BlogDetails: FC<IBlogDetails> = async ({ params }) => {
+    const post = await prisma.post.findFirst({
+        where: {
+            id: params.id
+        },
+        include: {
+            author: true
+        }
+    });
+
     return (
         <div className='max-w-4xl mx-auto py-8'>
-            <h1 className='text-3xl font-bold'>Post Tiltle</h1>
-            <p>Written by: author name</p>
-            <div className='mt-4'>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Rem unde, quae repellat modi illo cupiditate ullam vitae veritatis voluptate hic similique quia dignissimos quisquam in non nulla neque facere. Reiciendis amet veniam asperiores id sunt mollitia a ratione tempora accusantium placeat impedit aliquam sequi nam architecto, molestiae rem earum ipsa.
+            <h1 className='text-3xl font-bold'>{post?.title}</h1>
+            <div className='flex justify-between text-gray-600 my-2'>
+                <p>Author: {post?.author?.name}</p>
+                <p>{format(post?.createdAt as Date, 'MMMM d, yyyy')}</p>
+            </div>
+            <div className='mt-4 text-justify'>
+                {post?.content}
             </div>
 
-            <Comments />
-            <FormComments />
+            <Comments postId={params.id} />
+            <FormComments postId={params.id} />
         </div>
     );
 };

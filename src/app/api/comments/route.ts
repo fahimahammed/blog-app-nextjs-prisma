@@ -11,17 +11,17 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: 'Not authenticated!' }, { status: 401 });
         }
 
-        const { title, content } = await req.json();
+        const { postId, text } = await req.json();
 
-        const newPost = await prisma.post.create({
+        const newComment = await prisma.comment.create({
             data: {
-                title,
-                content,
+                postId,
+                text,
                 authorEmail: user?.email
             }
         });
 
-        return NextResponse.json({ data: newPost }, { status: 200 });
+        return NextResponse.json({ data: newComment }, { status: 200 });
     }
     catch (err) {
         return NextResponse.json({ message: "Something went wrong!" }, { status: 500 });
