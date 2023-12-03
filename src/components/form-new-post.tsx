@@ -21,9 +21,9 @@ const FromNewPost = () => {
         })
     };
 
-    const handleSubmit = (e: any) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("form submit")
+        console.log("data: ", formData);
     }
 
     return (
